@@ -6,7 +6,7 @@
     "chat",
     "api"
   ],
-  "author": "Tom Bell",
+  "author": "Tom Bell <tomb@tomb.io>",
   "version": "0.0.6",
   "licenses": [{
     "type": "MIT",
