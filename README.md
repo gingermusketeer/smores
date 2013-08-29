@@ -2,7 +2,8 @@
 
 ## DESCRIPTION
 
-S'mores is a [Campfire](http://campfirenow.com) library written in CoffeeScript for Node.
+S'mores is a [Campfire](http://campfirenow.com) library written in CoffeeScript
+for Node.
 
 ## INSTALLATION
 
@@ -38,9 +39,9 @@ campfire.join 12345, (error, room) ->
 The API for the `Campfire` class is explained below with examples of using each
 function.
 
-Unless otherwise stated the callback functions will have any errors as the
-first parameter and the response of the request as the second parameter which
-is specific to the function.
+Unless otherwise stated the callback functions will have any errors as the first
+parameter and the response of the request as the second parameter which is
+specific to the function.
 
 #### Constructor
 
@@ -100,8 +101,8 @@ campfire.presence (error, rooms) ->
 
 #### Rooms
 
-The `rooms` function will get an array of `Room` instances for every room
-that the currently authenticated user is able to join.
+The `rooms` function will get an array of `Room` instances for every room that
+the currently authenticated user is able to join.
 
 Example:
 
@@ -130,8 +131,8 @@ campfire.room 12345, (error, room) ->
 
 #### Search
 
-The `search` function will get an array of `Message` instances which contain
-the specified search term.
+The `search` function will get an array of `Message` instances which contain the
+specified search term.
 
 Example:
 
@@ -163,9 +164,9 @@ campfire.user 12345, (error, user) ->
 The API for the `Message` class is explained below with examples of using each
 function.
 
-Unless otherwise stated the callback functions will have any errors as the
-first parameter and the response of the request as the second parameter which
-is specific to the function.
+Unless otherwise stated the callback functions will have any errors as the first
+parameter and the response of the request as the second parameter which is
+specific to the function.
 
 #### Constructor
 
@@ -216,14 +217,14 @@ message.unstar (error, response) ->
 The API for the `Room` class is explained below with examples of using each
 function.
 
-Unless otherwise stated the callback functions will have any errors as the
-first parameter and the response of the request as the second parameter which
-is specific to the function.
+Unless otherwise stated the callback functions will have any errors as the first
+parameter and the response of the request as the second parameter which is
+specific to the function.
 
 #### Constructor
 
-The constructor of the `Room` class configures properties for the room data
-hat this instance represents.
+The constructor of the `Room` class configures properties for the room data that
+this instance represents.
 
 The constructor is only called internally, and not by a user.
 
@@ -270,8 +271,8 @@ room.leave (error, response) ->
 #### Listen
 
 The `listen` function will connect to the streaming API and stream incoming
-messages to the callback function. The callback function for `listen` will
-only require a single parameter which is the message received.
+messages to the callback function. The callback function for `listen` will only
+require a single parameter which is the message received.
 
 Example:
 
@@ -296,8 +297,8 @@ room.lock (error, response) ->
 
 #### Message
 
-The `message` function sends a message of the specified type. It is usually
-best to use one of the following abstracted functions.
+The `message` function sends a message of the specified type. It is usually best
+to use one of the following abstracted functions.
 
 * `paste`
 * `sound`
@@ -440,8 +441,8 @@ room.unlock (error, response) ->
 
 #### Uploads
 
-The `uploads` function will get a JSON representation of the uploads uploaded
-to the room.
+The `uploads` function will get a JSON representation of the uploads uploaded to
+the room.
 
 Example:
 
@@ -468,24 +469,21 @@ Here's the most direct way to get your work merged into the project:
 
 ## LICENSE
 
-The MIT License
+Copyright 2013 Tom Bell
 
-Copyright (c) 2011 Tom Bell
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in
-all copies or substantial portions of the Software.
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
