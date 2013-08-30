@@ -36,9 +36,9 @@ class Campfire
   # Returns nothing.
   join: (id, callback) ->
     @room id, (err, room) ->
-      return callback?(err) if err
+      return callback? err if err
       room.join (err) ->
-        callback?(err, room)
+        callback? err, room
 
   # Public: Get a JSON representation of the authenticated user making the
   # request. The JSON is passed to the callback function.
@@ -58,7 +58,7 @@ class Campfire
   # Returns nothing.
   presence: (callback) ->
     @get '/presence', (err, resp) =>
-      return callback?(err) if err?
+      return callback? err if err?
       callback null, (new Room @, room for room in resp.rooms)
 
   # Public: Get the rooms the authenticated user is able to join. The array of
@@ -70,7 +70,7 @@ class Campfire
   # Returns nothing.
   rooms: (callback) ->
     @get '/rooms', (err, resp) =>
-      return callback(err) if err
+      return callback err if err
       callback null, (new Room @, room for room in resp.rooms)
 
   # Public: Get a room instance for the specified room ID. The room instance
@@ -82,7 +82,7 @@ class Campfire
   # Returns nothing.
   room: (id, callback) ->
     @get "/room/#{id}", (err, resp) =>
-      return callback(err) if err
+      return callback err if err
       callback null, new Room(@, resp.room)
 
   # Public: Get all messages which contain the specified search term. The array
@@ -95,7 +95,7 @@ class Campfire
   # Returns nothing.
   search: (term, callback) ->
     @get "/search/#{term}", (err, resp) =>
-      return callback(err) if err
+      return callback err if err
       callback null, (new Message @, msg for msg in resp.messages)
 
   # Public: Get a user instance for the specified user ID. The user instance
@@ -173,10 +173,10 @@ class Campfire
 
       resp.on 'end', ->
         try
-          data = JSON.parse(data)
-          callback(null, data)
+          data = JSON.parse data
+          callback null, data
         catch err
-          callback(err)
+          callback err
 
     request.write(body) if method is 'POST'
     request.end()

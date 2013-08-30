@@ -69,7 +69,7 @@ class Room
       resp.on 'data', (data) ->
         for chunk in data.split("\r")
           try
-            data = JSON.parse(chunk.trim())
+            data = JSON.parse chunk.trim()
             callback new Message @campfire, data
           catch err
             return
@@ -113,7 +113,7 @@ class Room
   # Returns nothing.
   messages: (callback) ->
     @get '/recent', (err, resp) =>
-      return callback(err) if err
+      return callback err if err
       callback null, (new Message @campfire, msg for msg in response.messages)
 
   # Public: Get the existing room and all users currently inside it. The
@@ -158,7 +158,7 @@ class Room
       path += "/#{date.getFullYear()}/#{date.getMonth()}/#{date.getDate()}"
 
     @get path, (err, resp) =>
-      return callback(err) if err
+      return callback err if err
       callback null, (new Message @campfire, msg for msg in response.message)
 
   # Public: Send a tweet message. The response JSON is passed to the callback
@@ -187,7 +187,7 @@ class Room
   # Returns nothing.
   uploads: (callback) ->
     @get '/uploads', (err, resp) ->
-      return callback(err) if err
+      return callback err if err
       callback null, resp.uploads
 
   # A wrapper around the Campfire get function.
