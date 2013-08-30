@@ -64,7 +64,7 @@ class Room
        'Authorization': @campfire.authorization
 
     request = @campfire.http.request options, (resp) =>
-      @connection = response.connection
+      @connection = resp.connection
       resp.setEncoding 'utf8'
       resp.on 'data', (data) ->
         for chunk in data.split("\r")
