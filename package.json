@@ -1,7 +1,7 @@
 {
   "name": "smores",
   "description": "Node powered Campfire API library",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Tom Bell <tomb@tomb.io>",
 
   "keywords": [
