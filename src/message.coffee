@@ -44,7 +44,7 @@ class Message
   #
   # Returns nothing.
   delete: (path, callback) ->
-    @campfire.delete @path + path, callback
+    @campfire.delete "#{@path}#{path}", callback
 
   # A wrapper around the Campfire post function.
   #
@@ -54,6 +54,6 @@ class Message
   #
   # Returns nothing.
   post: (path, body, callback) ->
-    @campfire.post @path + path, body, callback
+    @campfire.post "#{@path}#{path}", body, callback
 
-exports.Message = Message
+module.exports = Message

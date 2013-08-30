@@ -1,4 +1,4 @@
-Message = require('./message').Message
+Message = require './message'
 
 # Public: Represents a Campfire room.
 class Room
@@ -29,8 +29,7 @@ class Room
     @path             = "/room/#{@id}"
     @connection       = null
 
-  # Public: Join the room. The response JSON is passed to the callback
-  #         function.
+  # Public: Join the room. The response JSON is passed to the callback function.
   #
   # callback - A Function accepting an error message and JSON result.
   #
@@ -39,8 +38,7 @@ class Room
     @post '/join', '', callback
 
   # Public: Leave the room. The response JSON is passed to the callback
-  #         function. Destorys the streaming HTTP request if the connection
-  #         exists.
+  # function. Destorys the streaming HTTP request if the connection exists.
   #
   # callback - A Function accepting an error message and JSON result.
   #
@@ -49,34 +47,31 @@ class Room
     @connection.destroy() if @connection
     @post '/leave', '', callback
 
-  # Public: Listen to the HTTP streaming API and call the callback function
-  #         when a message is received.
+  # Public: Listen to the HTTP streaming API and call the callback function when
+  # a message is received.
   #
   # callback - A Function accepting a message instance.
   #
   # Returns nothing.
   listen: (callback) ->
-   throw new Error 'A callback must be provided for listening' unless typeof callback is 'function'
-
-   campfire = @campfire
    options =
      host: 'streaming.campfirenow.com'
-     port: campfire.port
+     port: @campfire.port
      method: 'GET'
      path: "#{@path}/live.json"
      headers:
        'Host': 'streaming.campfirenow.com'
-       'Authorization': campfire.authorization
+       'Authorization': @campfire.authorization
 
-    request = campfire.http.request options, (response) =>
+    request = @campfire.http.request options, (response) =>
       @connection = response.connection
       response.setEncoding 'utf8'
       response.on 'data', (data) ->
         for chunk in data.split("\r")
           try
-            data = JSON.parse chunk.trim()
-            callback? new Message campfire, data
-          catch e
+            data = JSON.parse(chunk.trim())
+            callback? new Message @campfire, data
+          catch err
             return
 
     request.end()
@@ -89,8 +84,8 @@ class Room
   lock: (callback) ->
     @post '/lock', '', callback
 
-  # Public: Send a message of the specified type. The response JSON is passed
-  #         to the callback function.
+  # Public: Send a message of the specified type. The response JSON is passed to
+  # the callback function.
   #
   # text     - A String of the message body.
   # type     - A String of the message type.
@@ -101,7 +96,7 @@ class Room
     @post '/speak', { message: { body: text, type: type } }, callback
 
   # Public: Send a paste message. The response JSON is passed to the callback
-  #         function.
+  # function.
   #
   # text     - A String of the paste message body.
   # callback - A Function accepting an error message and JSON result.
@@ -111,18 +106,18 @@ class Room
     @message text, 'PasteMessage', callback
 
   # Public: Get an array of recent messages. The array of messages is passed to
-  #         the callback function.
+  # the callback function.
   #
   # callback - A Function accepting an error message and array of messages.
   #
   # Returns nothing.
   messages: (callback) ->
-    @get '/recent', (error, response) =>
-      messages = (new Message @campfire, message for message in response.messages) if response
-      callback? error, messages
+    @get '/recent', (err, resp) =>
+      return callback(err) if err
+      callback null, (new Message @campfire, msg for msg in response.messages)
 
   # Public: Get the existing room and all users currently inside it. The
-  #         response JSON is passed to the callback function.
+  # response JSON is passed to the callback function.
   #
   # callback - A Function accepting an error message and JSON result.
   #
@@ -131,7 +126,7 @@ class Room
     @post '', '', callback
 
   # Public: Send a sound message. The response JSON is passed to the callback
-  #         function.
+  # function.
   #
   # text     - A String of the sound item to play.
   # callback - A Function accepting an error message and array of messages.
@@ -141,7 +136,7 @@ class Room
     @message text, 'SoundMessage', callback
 
   # Public: Send a text message. The response JSON is passed to the callback
-  #         function.
+  # function.
   #
   # callback - A Function accepting an error message and JSON result.
   #
@@ -150,7 +145,7 @@ class Room
     @message text, 'TextMessage', callback
 
   # Public: Get an array of transcripts for an optional date. The array of
-  #         messages is passed to the callback function.
+  # messages is passed to the callback function.
   #
   # date     - An optional Date of the day to get the transcript for.
   # callback - A Function accepting an error message and array of messages.
@@ -160,12 +155,13 @@ class Room
     path = '/transcript'
     callback = callback or date
     path += "/#{date.getFullYear()}/#{date.getMonth()}/#{date.getDate()}" if date instanceof Date
-    @get path, (error,response) =>
-      messages = (new Message @campfire, message for message in response.message) if response
-      callback? error, messages
+
+    @get path, (err, resp) =>
+      return callback(err) if err
+      callback null, (new Message @campfire, msg for msg in response.message)
 
   # Public: Send a tweet message. The response JSON is passed to the callback
-  #         function.
+  # function.
   #
   # callback - A Function accepting an error message and JSON result.
   #
@@ -174,7 +170,7 @@ class Room
     @message url, 'TweetMessage', callback
 
   # Public: Unlock the room. The response JSON is passed to the callback
-  #         function.
+  # function.
   #
   # callback - A Function accepting an error message and JSON result.
   #
@@ -183,15 +179,15 @@ class Room
     @post '/unlock', '', callback
 
   # Public: Get a JSON object of uploads. The response JSON will be passed to
-  #         the callback function.
+  # the callback function.
   #
   # callback - A Function accepting an error message and JSON result.
   #
   # Returns nothing.
   uploads: (callback) ->
-    @get '/uploads', (error, response) ->
-      uploads = response.uploads if response
-      callback? error, uploads
+    @get '/uploads', (err, resp) ->
+      return callback(err) if err
+      callback null, resp.uploads
 
   # A wrapper around the Campfire get function.
   #
@@ -200,7 +196,7 @@ class Room
   #
   # Returns nothing.
   get: (path, callback) ->
-    @campfire.get @path + path, callback
+    @campfire.get "#{@path}#{path}", callback
 
   # A wrapper around the Campfire post function.
   #
@@ -210,6 +206,6 @@ class Room
   #
   # Returns nothing.
   post: (path, body, callback) ->
-    @campfire.post @path + path, body, callback
+    @campfire.post "#{@path}#{path}", body, callback
 
-exports.Room = Room
+module.exports = Room
