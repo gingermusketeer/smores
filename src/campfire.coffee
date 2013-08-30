@@ -174,9 +174,9 @@ class Campfire
       resp.on 'end', ->
         try
           data = JSON.parse data
-          callback null, data
+          callback? null, data
         catch err
-          callback err
+          callback? err
 
     request.write(body) if method is 'POST'
     request.end()
