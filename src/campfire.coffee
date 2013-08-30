@@ -19,9 +19,8 @@ class Campfire
 
     ssl = !!options.ssl
 
-    @http = if ssl then require 'https' else require 'http'
-    @port = if ssl then 443 else 80
-
+    @http   = if ssl then require 'https' else require 'http'
+    @port   = if ssl then 443 else 80
     @domain = "#{options.account}.campfirenow.com"
 
     encoded = new Buffer("#{options.token}:x").toString('base64')
@@ -97,7 +96,7 @@ class Campfire
   search: (term, callback) ->
     @get "/search/#{term}", (err, resp) =>
       return callback(err) if err
-      callback err, (new Message @, message for message in resp.messages)
+      callback null, (new Message @, msg for msg in resp.messages)
 
   # Public: Get a user instance for the specified user ID. The user instance
   # is passed to the callback function.
@@ -178,7 +177,7 @@ class Campfire
           callback(null, data)
         catch err
           callback(err)
- 
+
     request.write(body) if method is 'POST'
     request.end()
 

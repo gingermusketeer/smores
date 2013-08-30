@@ -63,14 +63,14 @@ class Room
        'Host': 'streaming.campfirenow.com'
        'Authorization': @campfire.authorization
 
-    request = @campfire.http.request options, (response) =>
+    request = @campfire.http.request options, (resp) =>
       @connection = response.connection
-      response.setEncoding 'utf8'
-      response.on 'data', (data) ->
+      resp.setEncoding 'utf8'
+      resp.on 'data', (data) ->
         for chunk in data.split("\r")
           try
             data = JSON.parse(chunk.trim())
-            callback? new Message @campfire, data
+            callback new Message @campfire, data
           catch err
             return
 
@@ -149,12 +149,13 @@ class Room
   #
   # date     - An optional Date of the day to get the transcript for.
   # callback - A Function accepting an error message and array of messages.
-  # 
+  #
   # Returns nothing.
   transcript: (date, callback) ->
     path = '/transcript'
     callback = callback or date
-    path += "/#{date.getFullYear()}/#{date.getMonth()}/#{date.getDate()}" if date instanceof Date
+    if date instanceof Date
+      path += "/#{date.getFullYear()}/#{date.getMonth()}/#{date.getDate()}"
 
     @get path, (err, resp) =>
       return callback(err) if err
