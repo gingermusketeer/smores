@@ -181,4 +181,4 @@ class Campfire
     request.write(body) if method is 'POST'
     request.end()
 
-exports.Campfire = Campfire
+module.exports = Campfire
