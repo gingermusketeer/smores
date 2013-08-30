@@ -1,4 +1,4 @@
-Campfire = require('../lib/campfire').Campfire
+Campfire = require '../lib/campfire'
 
 ROOM_ID = process.env.CAMPFIRE_ROOM_ID
 
